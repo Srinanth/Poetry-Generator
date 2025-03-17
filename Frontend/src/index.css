@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    @apply bg-slate-900;
+}
+
+.thin-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(74, 144, 226, 0.8) rgba(10, 25, 47, 0.9);
+    
+    
+}
+
+.delete-all-button {
+    margin-top: auto;
+    padding: 10px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+  
+.delete-all-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
