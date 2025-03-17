@@ -8,7 +8,6 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-dist
 dist-ssr
 *.local
 
@@ -26,3 +25,4 @@ dist-ssr
 #extras
 .env
 src/utils/constants.ts
+package-lock.json
