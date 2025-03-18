@@ -79,11 +79,10 @@ export const userlogin = async (
     }
     
     res.clearCookie(COOKIE_NAME, {
-      path: "/",
       domain: "localhost",
-      expires,
       httpOnly: true,
       signed: true,
+      path: "/",
     });
 
     const token = createToken(user._id.toString(), user.email, "7d");
