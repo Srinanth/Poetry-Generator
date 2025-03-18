@@ -5,7 +5,7 @@ import App from "./App.tsx";
 import { Toaster } from "react-hot-toast";
 import axios from "axios";
 
-export const server = "http://localhost:5000/api/v1";
+export const server = "https://poetry-generator-vbmw.onrender.com/";
 axios.defaults.baseURL = server;
 axios.defaults.withCredentials = true;
 
