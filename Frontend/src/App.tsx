@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-import NotFound from "./pages/NotFound";
 import { useAuth, AuthProvider } from "./context/AuthContext";
 import { ChatProvider } from "./context/chat-context";
 import { LoadingSpinner } from "./components/loading";
