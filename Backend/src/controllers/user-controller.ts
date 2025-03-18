@@ -79,10 +79,11 @@ export const userlogin = async (
     }
     
     res.clearCookie(COOKIE_NAME, {
-      domain: "localhost",
+      domain: "poetry-generator-frontend.onrender.com",
       httpOnly: true,
       signed: true,
       path: "/",
+      secure: true,
     });
 
     const token = createToken(user._id.toString(), user.email, "7d");
@@ -90,10 +91,12 @@ export const userlogin = async (
     expires.setDate(expires.getDate() + 7);
     res.cookie(COOKIE_NAME, token, {
       path: "/",
-      domain: "localhost",
+      domain: "poetry-generator-frontend.onrender.com",
       expires,
       httpOnly: true,
       signed: true,
+      secure: true,
+       sameSite: 'none',
     });
 
     return res.status(200).json({ message: "OK", name: user.name, email: user.email,token });
