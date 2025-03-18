@@ -15,7 +15,10 @@ app.use(cors({origin:'http://localhost:5173',credentials:true}));
 app.use(express.json());
 app.use(cookieParser(process.env.COOKIE));
 
-
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
 
 
 app.use('/api/v1',approuter);
