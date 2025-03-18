@@ -37,7 +37,7 @@ const MainRoutes = () => {
           path="/chat"
           element={isLoggedIn ? <Home /> : <Navigate to="/login" replace />}
         />
-        <Route path="*" element={<NotFound />} />
+        
       </Routes>
     </BrowserRouter>
   );
