@@ -13,6 +13,11 @@ Poetry AI is a **full-stack MERN (MongoDB, Express.js, React.js, Node.js)** appl
 - **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices.
 
 ---
+## Working Video 
+https://github.com/user-attachments/assets/808041f0-e38a-413f-a772-812b149ff749
+
+
+
 
 ## Technologies Used
 
