@@ -2,6 +2,7 @@ import { createContext, ReactNode, useState, useEffect, useContext } from "react
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { loginUser, signupUser} from "../helpers/api-linker";
+import { useNavigate } from "react-router-dom";
 
 type User = {
   name?: string;
@@ -24,6 +25,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   // Fetch authentication status on mount
   useEffect(() => {
@@ -63,6 +65,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (data) {
         setUser({ email: data.email, password: data.password });
         setIsLoggedIn(true);
+        navigate("/chat"); 
         localStorage.setItem("token", data.token);
       }
     } catch (error) {
