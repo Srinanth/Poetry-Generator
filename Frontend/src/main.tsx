@@ -24,16 +24,7 @@ axios.interceptors.request.use(
 );
 
 // token expiry handler
-axios.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem("token");
-      window.location.href = "/login";
-    }
-    return Promise.reject(error);
-  }
-);
+
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
