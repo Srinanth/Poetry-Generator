@@ -1,8 +1,7 @@
 import axios from 'axios';
-import { server } from '../main';
 
 export const loginUser = async (email: string, password: string) => {
-  const res = await axios.post(`${server}/user/login`, { email, password }, { withCredentials: true });
+  const res = await axios.post(`https://poetry-generator-3q8c.onrender.com/user/login`, { email, password }, { withCredentials: true });
   if (res.status !== 200) {
     throw new Error('Failed to login');
   }
@@ -11,7 +10,7 @@ export const loginUser = async (email: string, password: string) => {
 };
 
 export const signupUser = async (name: string, email: string, password: string) => {
-  const res = await axios.post(`${server}/user/signup`, { name, email, password }, { withCredentials: true });
+  const res = await axios.post(`https://poetry-generator-3q8c.onrender.com/user/signup`, { name, email, password }, { withCredentials: true });
   if (res.status !== 201) {
     throw new Error('Unable to Signup');
   }
@@ -20,7 +19,7 @@ export const signupUser = async (name: string, email: string, password: string) 
 };
 
 export const checkAuthStatus = async () => {
-  const res = await axios.get(`${server}/user/auth-status`, { withCredentials: true });
+  const res = await axios.get(`https://poetry-generator-3q8c.onrender.com/user/auth-status`, { withCredentials: true });
   if (res.status !== 200) {
     throw new Error('Failed to Authenticate');
   }
