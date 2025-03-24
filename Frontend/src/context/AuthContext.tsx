@@ -2,7 +2,6 @@ import { createContext, ReactNode, useState, useEffect, useContext } from "react
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { loginUser, signupUser} from "../helpers/api-linker";
-import { server } from "../main";
 
 type User = {
   name?: string;
@@ -32,7 +31,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       try {
         const token = localStorage.getItem("token");
         if (token) {
-          const { data } = await axios.get(`${server}/user/auth-status`, {
+          const { data } = await axios.get(`https://poetry-generator-3q8c.onrender.com/user/auth-status`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
