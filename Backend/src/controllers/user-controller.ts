@@ -36,6 +36,7 @@ export const userSignup = async (
     await user.save();
 // creating tokens and storing cookies,same for login
     res.clearCookie(COOKIE_NAME, {
+      domain:"https://poetry-generator-3q8c.onrender.com",
       secure: true, // Ensure cookies are sent over HTTPS
   sameSite: "none",
       httpOnly: true,
@@ -53,6 +54,7 @@ export const userSignup = async (
       expires,
       httpOnly: true,
       signed: true,
+      domain:"https://poetry-generator-3q8c.onrender.com",
     });
 
 
@@ -86,6 +88,7 @@ export const userlogin = async (
       httpOnly: true,
       signed: true,
       path: "/",
+      domain:"https://poetry-generator-3q8c.onrender.com",
     });
 
     const token = createToken(user._id.toString(), user.email, "7d");
@@ -98,6 +101,7 @@ export const userlogin = async (
       expires,
       httpOnly: true,
       signed: true,
+      domain:"https://poetry-generator-3q8c.onrender.com",
     });
 
     return res.status(200).json({ message: "OK", name: user.name, email: user.email,token });
