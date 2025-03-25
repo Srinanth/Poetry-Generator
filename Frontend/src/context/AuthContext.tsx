@@ -1,12 +1,11 @@
 import { createContext, ReactNode, useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { loginUser, signupUser} from "../helpers/api-linker";
+import { loginUser, signupUser } from "../helpers/api-linker";
 
 type User = {
   name?: string;
   email: string;
-  password: string;
 };
 
 type UserAuth = {
@@ -25,29 +24,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // Fetch authentication status on mount
+  // Check auth status on mount
   useEffect(() => {
     async function fetchAuthStatus() {
       try {
-        const token = localStorage.getItem("token");
-        if (token) {
-          const { data } = await axios.get(`https://poetry-generator-3q8c.onrender.com/api/v1/user/auth-status`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-  
-          if (data && data.email) {
-            setUser({ email: data.email, password: "" }); // Password is not needed here
-            setIsLoggedIn(true);
-          }
+        const { data } = await axios.get(
+          "https://poetry-generator-3q8c.onrender.com/api/v1/user/auth-status",
+          { withCredentials: true } // Crucial for cookies
+        );
+
+        if (data?.email) {
+          setUser({ email: data.email, name: data.name });
+          setIsLoggedIn(true);
         }
       } catch (error) {
-        console.error("Failed to fetch auth status:", error);
-        // Clear token if auth status check fails
-        localStorage.removeItem("token");
-        setIsLoggedIn(false);
-        setUser(null);
+        console.error("Auth check failed:", error);
       } finally {
         setLoading(false);
       }
@@ -55,16 +46,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     fetchAuthStatus();
   }, []);
 
-  // Login function
+  // Login
   const login = async (email: string, password: string) => {
     setLoading(true);
     try {
       const data = await loginUser(email, password);
-      if (data) {
-        setUser({ email: data.email, password: data.password });
-        setIsLoggedIn(true);
-        localStorage.setItem("token", data.token);
-      }
+      setUser({ email: data.email, name: data.name });
+      setIsLoggedIn(true);
+      toast.success("Login successful");
     } catch (error) {
       console.error("Login failed:", error);
       toast.error("Login failed. Please try again.");
@@ -73,13 +62,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Signup function
+  // Signup
   const signup = async (name: string, email: string, password: string) => {
     setLoading(true);
     try {
       const data = await signupUser(name, email, password);
-      setUser({ name: data.name, email: data.email, password: data.password });
-      localStorage.setItem("token", data.token);
+      setUser({ email: data.email, name: data.name });
+      setIsLoggedIn(true);
       toast.success("Signup successful");
     } catch (error) {
       console.error("Signup failed:", error);
@@ -89,11 +78,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Logout function
+  // Logout
   const logout = async () => {
     setLoading(true);
     try {
-      localStorage.removeItem("token");
+      await axios.post(
+        "https://poetry-generator-3q8c.onrender.com/api/v1/user/logout",
+        {},
+        { withCredentials: true } // Clear cookie
+      );
       setUser(null);
       setIsLoggedIn(false);
       toast.success("Logged out successfully");
@@ -105,7 +98,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Context value
   const value: UserAuth = {
     isLoggedIn,
     user,
@@ -118,7 +110,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-//  hook to use AuthContext
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
