@@ -36,7 +36,7 @@ export const userSignup = async (
     await user.save();
 // creating tokens and storing cookies,same for login
     res.clearCookie(COOKIE_NAME, {
-      domain:"https://poetry-generator-3q8c.onrender.com",
+      domain:"poetry-generator-3q8c.onrender.com",
       secure: true, // Ensure cookies are sent over HTTPS
   sameSite: "none",
       httpOnly: true,
@@ -54,7 +54,7 @@ export const userSignup = async (
       expires,
       httpOnly: true,
       signed: true,
-      domain:"https://poetry-generator-3q8c.onrender.com",
+      domain:"poetry-generator-3q8c.onrender.com",
     });
 
 
@@ -88,7 +88,7 @@ export const userlogin = async (
       httpOnly: true,
       signed: true,
       path: "/",
-      domain:"https://poetry-generator-3q8c.onrender.com",
+      domain:"poetry-generator-3q8c.onrender.com",
     });
 
     const token = createToken(user._id.toString(), user.email, "7d");
@@ -101,7 +101,7 @@ export const userlogin = async (
       expires,
       httpOnly: true,
       signed: true,
-      domain:"https://poetry-generator-3q8c.onrender.com",
+      domain:"poetry-generator-3q8c.onrender.com",
     });
 
     return res.status(200).json({ message: "OK", name: user.name, email: user.email,token });
@@ -136,27 +136,19 @@ export const verifyUser = async (
   }
 };
 
-export const logout = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const logout = async (req: Request, res: Response) => {
   try {
-    // token check
-    const user = await User.findById(res.locals.jwtData.id);
-    if (!user) {
-      return res.status(401).send("User does not exist or token malfunction");
-    }
-    console.log(user._id.toString(), res.locals.jwtData.id);
-
-    if(user._id.toString()!== res.locals.jwtData.id){
-      return res.status(401).send("Permissions didnt match");
-    }
-
-    return res.status(200).json({ message: "OK", name: user.name, email: user.email });
+    res.clearCookie(COOKIE_NAME, {
+      path: "/",
+      domain: "poetry-generator-3q8c.onrender.com", // Remove https://
+      secure: true,
+      sameSite: "none",
+      httpOnly: true,
+      signed: true,
+    });
+    return res.status(200).json({ message: "OK" });
   } catch (error) {
-    console.log(error);
-    return res.status(200).json({ message: "ERROR", cause: error.message });
+    return res.status(500).json({ message: "ERROR", cause: error.message });
   }
 };
 // for implementing a userprofile feature
