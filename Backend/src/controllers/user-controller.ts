@@ -36,7 +36,8 @@ export const userSignup = async (
     await user.save();
 // creating tokens and storing cookies,same for login
     res.clearCookie(COOKIE_NAME, {
-      domain: "localhost",
+      secure: true, // Ensure cookies are sent over HTTPS
+  sameSite: "none",
       httpOnly: true,
       signed: true,
       path: "/",
@@ -47,7 +48,8 @@ export const userSignup = async (
     expires.setDate(expires.getDate() + 7);
     res.cookie(COOKIE_NAME, token, {
       path: "/",
-      domain: "localhost",
+      secure: true, // Ensure cookies are sent over HTTPS
+  sameSite: "none", 
       expires,
       httpOnly: true,
       signed: true,
@@ -79,7 +81,8 @@ export const userlogin = async (
     }
     
     res.clearCookie(COOKIE_NAME, {
-      domain: "localhost",
+      secure: true, // Ensure cookies are sent over HTTPS
+  sameSite: "none", 
       httpOnly: true,
       signed: true,
       path: "/",
@@ -90,7 +93,8 @@ export const userlogin = async (
     expires.setDate(expires.getDate() + 7);
     res.cookie(COOKIE_NAME, token, {
       path: "/",
-      domain: "localhost",
+      secure: true, // Ensure cookies are sent over HTTPS
+  sameSite: "none", 
       expires,
       httpOnly: true,
       signed: true,
