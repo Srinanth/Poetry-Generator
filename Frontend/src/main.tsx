@@ -5,7 +5,7 @@ import App from "./App.tsx";
 import { Toaster } from "react-hot-toast";
 import axios from "axios";
 
-export const server = "https://poetry-ai-theta.vercel.app/api/v1";
+export const server = "https://poetry-ai-theta.vercel.app/api/v1/";
 axios.defaults.baseURL = server;
 axios.defaults.withCredentials = true;
 
