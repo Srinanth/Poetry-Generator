@@ -25,3 +25,4 @@ dist-ssr
 
 #extras
 .env
+package-lock.json
