@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       try {
         const token = localStorage.getItem("token");
         if (token) {
-          const { data } = await axios.get(`https://poetry-ai-theta.vercel.app/user/auth-status`, {
+          const { data } = await axios.get(`https://poetry-ai-theta.vercel.app/api/v1/user/auth-status`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
