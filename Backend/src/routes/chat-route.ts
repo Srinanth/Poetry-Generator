@@ -7,15 +7,15 @@ import { verifyUser } from "../controllers/user-controller";
 
 const chatRouter = Router();
 
-chatRouter.post("/create", verifyToken, createChat);
+chatRouter.post("/create",createChat);
 chatRouter.post(
   "/generate",
   verifyToken,
   generateChatCompletion
 );
-chatRouter.get("/all",verifyToken,getAllChats);
-chatRouter.get("/getconversation/:id",verifyToken,getConversation);
-chatRouter.delete("/delete/:id",verifyToken,deleteChat);
-chatRouter.delete("/deleteall",verifyToken,deleteAllChats);
+chatRouter.get("/all",getAllChats);
+chatRouter.get("/getconversation/:id",getConversation);
+chatRouter.delete("/delete/:id",deleteChat);
+chatRouter.delete("/deleteall",deleteAllChats);
 
 export default chatRouter;

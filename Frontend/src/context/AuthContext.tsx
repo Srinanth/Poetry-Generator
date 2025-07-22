@@ -28,6 +28,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // Fetch authentication status on mount
   useEffect(() => {
     async function fetchAuthStatus() {
+      
       try {
         const token = localStorage.getItem("token");
         if (token) {
@@ -35,14 +36,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          });
-  
+          } );
+          
           if (data && data.email) {
             setUser({ email: data.email, password: "" }); // Password is not needed here
             setIsLoggedIn(true);
           }
         }
       } catch (error) {
+        
         console.error("Failed to fetch auth status:", error);
         // Clear token if auth status check fails
         localStorage.removeItem("token");
