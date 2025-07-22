@@ -27,7 +27,7 @@ export const userSignup = async (req: Request,res: Response) => {
     await user.save();
 // creating tokens and storing cookies,same for login
     res.clearCookie(COOKIE_NAME, {
-      domain: "localhost",
+      domain: 'https://poetry-ai-theta.vercel.app',
       httpOnly: true,
       signed: true,
       path: "/",
@@ -38,7 +38,7 @@ export const userSignup = async (req: Request,res: Response) => {
     expires.setDate(expires.getDate() + 7);
     res.cookie(COOKIE_NAME, token, {
       path: "/",
-      domain: "localhost",
+      domain: 'https://poetry-ai-theta.vercel.app',
       expires,
       httpOnly: true,
       signed: true,
@@ -65,7 +65,7 @@ export const userlogin = async (req: Request,res: Response) => {
     }
     
     res.clearCookie(COOKIE_NAME, {
-      domain: "localhost",
+      domain: 'https://poetry-ai-theta.vercel.app',
       httpOnly: true,
       signed: true,
       path: "/",
@@ -76,7 +76,7 @@ export const userlogin = async (req: Request,res: Response) => {
     expires.setDate(expires.getDate() + 7);
     res.cookie(COOKIE_NAME, token, {
       path: "/",
-      domain: "localhost",
+      domain: 'https://poetry-ai-theta.vercel.app',
       expires,
       httpOnly: true,
       signed: true,
