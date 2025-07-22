@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { COOKIE_NAME } from "./constants.js";
-
+import dotenv from "dotenv";
+dotenv.config();
 
 interface DecodedToken extends JwtPayload {
   id: string; 
