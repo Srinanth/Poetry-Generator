@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       try {
         const token = localStorage.getItem("token");
         if (token) {
-          const { data } = await axios.get(`http://localhost:5000/api/v1/user/auth-status`, {
+          const { data } = await axios.get(`https://poetry-generator-3q8c.onrender.com/api/v1/user/auth-status`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },

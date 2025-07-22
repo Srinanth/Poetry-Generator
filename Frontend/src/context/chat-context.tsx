@@ -80,7 +80,7 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
 
   const fetchChats = useCallback(async () => {
     try {      
-      const { data } = await axios.get(`https://poetry-generator-3q8c.onrender.com/api/v1/chat/all`, {
+      const { data } = await axios.get(`${server}/chat/all`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`, 
           'Cache-Control': 'no-cache',

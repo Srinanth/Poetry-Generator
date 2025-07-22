@@ -7,7 +7,7 @@ import axios from "axios";
 
 export const server = "http://localhost:5000/api/v1";
 axios.defaults.baseURL = server;
-
+axios.defaults.withCredentials = true;
 
 // token to header of authorization handler
 axios.interceptors.request.use(
