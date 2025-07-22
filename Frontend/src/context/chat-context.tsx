@@ -26,9 +26,7 @@ interface ChatContextType {
   deleteChat: (id: any) => void;
   deleteAllChats:()=> void;
   fetchChats: () => void;
-  fetchMessages:() => Promise<void>;
-  addResponse: (mchatId: string, question: string, answer: string) => void;
-  
+  fetchMessages:() => Promise<void>;  
 }
 
 const ChatContext = createContext<ChatContextType | undefined>(undefined);
@@ -81,21 +79,16 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
   }, [prompt, selected]); // dependency array
 
   const fetchChats = useCallback(async () => {
-    try {
-      console.log("Fetching chats from backend..."); // Debug log
-      
+    try {      
       const { data } = await axios.get(`${server}/chat/all`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`, 
           'Cache-Control': 'no-cache',
         },
       });
-  
-      console.log("Fetched data from backend:", data); // Debug log
-  
+    
       if (data && Array.isArray(data)) {
         setChats(data);
-        console.log("Updated chats state:", data); // Debug log
   
         // Set the first chat as selected (if available)
         if (data.length > 0) {
@@ -115,7 +108,6 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
     setCreateLod(true);
     try {
       const { data } = await axios.post(`${server}/chat/create`);
-      console.log("New chat created:", data); // Debugging: Log the response
   
       if (!data || !data._id) {
         throw new Error("Invalid response from server");
@@ -129,7 +121,6 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
         }
   
         const updatedChats = [...prev, data]; // Add the new chat to the list
-        console.log("Updated chats:", updatedChats); // Debugging: Log the updated chats
         return updatedChats;
       });
   
@@ -142,33 +133,12 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
     }
   }, []);
 
-  const addResponse = useCallback(async (chatId: string, question: string, answer: string) => {
-    try {
-      console.log("Frontend: Adding conversation to backend"); // Debugging: Log request initiation
-      const response = await axios.post(
-        `${server}/chat/conversation/${chatId}`,
-        { question, answer },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      );
-  
-      console.log("Frontend: Conversation added:", response.data); // Debugging: Log backend response
-    } catch (error) {
-      console.error("Frontend: Error adding conversation:", error); // Debugging: Log error
-      toast.error("Failed to save conversation");
-    }
-  }, []);
-
   useEffect(() => {
     // Resets message state when the selected chat changes
     setMessage([]);
   }, [selected]);
   const fetchMessages = useCallback(async () => {
     if (!selected) {
-      console.log("No chat selected");
       return;
     }
     setLoading(true);
@@ -204,7 +174,6 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
 
   const deleteAllChats = async () => {
     try {
-      console.log("TEST from chat context")
       await axios.delete(`${server}/chat/deleteall`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -233,7 +202,6 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
     <ChatContext.Provider
       value={{
         fetchResponse,
-        addResponse,
         message,
         setMessage,
         prompt,

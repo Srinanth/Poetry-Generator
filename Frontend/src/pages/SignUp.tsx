@@ -33,7 +33,6 @@ const Signup = () => {
       toast.success("Signed Up Successfully", { id: "signup" });
       navigate("/chat");
     } catch (error) {
-      console.log(error);
       toast.error("Signing Up Failed", { id: "signup" });
     }
   };

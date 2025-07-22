@@ -4,26 +4,17 @@ import { hash, compare } from "bcrypt";
 import { createToken } from "../utils/token-manager.js";
 import { COOKIE_NAME } from "../utils/constants.js";
 
-export const getAllUsers = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getAllUsers = async (res: Response) => {
   try {
     //get all users
     const users = await User.find();
     return res.status(200).json({ message: "OK", users });
   } catch (error) {
-    console.log(error);
     return res.status(200).json({ message: "ERROR", cause: error.message });
   }
 };
 
-export const userSignup = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const userSignup = async (req: Request,res: Response) => {
   try {
     //sign up
     const { name, email, password } = req.body;
@@ -56,16 +47,11 @@ export const userSignup = async (
 
     return res.status(201).json({ message: "OK", name: user.name, email: user.email });
   } catch (error) {
-    console.log(error);
     return res.status(200).json({ message: "ERROR", cause: error.message });
   }
 };
 
-export const userlogin = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const userlogin = async (req: Request,res: Response) => {
   try {
     //login
     const {email, password } = req.body;
@@ -98,16 +84,11 @@ export const userlogin = async (
 
     return res.status(200).json({ message: "OK", name: user.name, email: user.email,token });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ message: "ERROR", cause: error.message });
   }
 };
 
-export const verifyUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const verifyUser = async (res: Response) => {
   try {
     
     const user = await User.findById(res.locals.jwtData.id);
@@ -128,11 +109,7 @@ export const verifyUser = async (
   }
 };
 
-export const logout = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const logout = async (res: Response) => {
   try {
     // token check
     const user = await User.findById(res.locals.jwtData.id);
@@ -152,7 +129,7 @@ export const logout = async (
   }
 };
 // for implementing a userprofile feature
-export const myProfile = async (req, res) => {
+export const myProfile = async (req:any, res: Response) => {
   try {
     const user = await User.findById(req.user._id);
 

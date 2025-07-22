@@ -11,15 +11,13 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(email,'is Logging in');
     try {
       toast.loading("Logging in", {id:'login'});
       await auth?.login(email,password);
-      console.log('user logged in successfully')
+
       toast.success("Logged in successfully", {id:'login'});
       navigate("/chat"); 
     } catch (error) {
-      console.error(error);
       toast.error("Failed to login", {id:'login'});
     }
   
