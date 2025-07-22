@@ -19,29 +19,41 @@ export const createToken = (id: string, email: string, expiresIn) => {
   return token;
 };
 
-export const verifyToken = (req: Request, res: Response, next: NextFunction) => {
-  let token;
-
-  // ✅ Try to get token from header
-  const authHeader = req.headers.authorization;
-  if (authHeader && authHeader.startsWith("Bearer ")) {
-    token = authHeader.split(" ")[1];
-  }
-
-  // ❗ Else fallback to cookie
-  if (!token && req.signedCookies[COOKIE_NAME]) {
-    token = req.signedCookies[COOKIE_NAME];
-  }
-
-  if (!token) {
-    return res.status(401).json({ message: "No token provided" });
-  }
-
+export const verifyToken = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!);
-    res.locals.jwtData = decoded;
-    next();
+    let token: string | undefined;
+
+    // 1. Try to get token from Authorization header
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      token = authHeader.split(" ")[1];
+    }
+
+    // 2. Fallback: Try to get token from signed cookies
+    if (!token) {
+      token = req.signedCookies[COOKIE_NAME];
+    }
+
+    if (!token) {
+      return res.status(401).json({ message: "Unauthorized: No token provided" });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT) as DecodedToken;
+
+    if (!decoded || !decoded.id) {
+      return res.status(401).json({ message: "Unauthorized: Invalid token" });
+    }
+
+    res.locals.jwtData = { id: decoded.id, email: decoded.email };
+    next(); // ✅ All good, move on
+
   } catch (error) {
-    return res.status(401).json({ message: "Invalid token", cause: error.message });
+    console.error("Error verifying token:", error);
+    return res.status(401).json({ message: "Unauthorized: Invalid token" });
   }
 };
+
