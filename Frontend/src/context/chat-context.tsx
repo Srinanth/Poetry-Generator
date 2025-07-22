@@ -3,7 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import { server } from "../main";
 import toast from "react-hot-toast";
-
+import { useAuth } from "./AuthContext";
 interface Message {
   question: string;
   answer: string;
@@ -43,6 +43,7 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
   const [selected, setSelected] = useState<string | null>(null);
   const [createLod, setCreateLod] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { isLoggedIn, loading: authLoading } = useAuth();
 
   const fetchResponse = useCallback(async () => {
     if (!selected) {
@@ -187,9 +188,11 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
   };
 
   // Fetch chats when the component mounts
-  useEffect(() => {
+useEffect(() => {
+  if (!authLoading && isLoggedIn) {
     fetchChats();
-  }, [fetchChats]);
+  }
+}, [authLoading, isLoggedIn, fetchChats]);
 
   // Fetch messages when the selected chat changes diff from reset
   useEffect(() => {
