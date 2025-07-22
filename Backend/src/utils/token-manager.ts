@@ -49,7 +49,7 @@ export const verifyToken = async (
     }
 
     res.locals.jwtData = { id: decoded.id, email: decoded.email };
-    next(); // ✅ All good, move on
+    next();
 
   } catch (error) {
     console.error("Error verifying token:", error);
